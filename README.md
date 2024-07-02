@@ -12,3 +12,10 @@ Let's dive in and start creating!
 ## Getting Started
 
 Since I already have some experience with React, I'll be taking a bird's-eye view and starting with a high-level overview of React, as detailed in the [0_GettingStarted.md](0_GettingStarted.md) file.
+
+## Projects
+
+### 0: Hello React
+
+- My first app to get started with React. This project includes my personal notes and remarks, which can be found in the [hello-react notes](./hello-react/Notes.md).
+- Read more about [Writing tests](./hello-react/WritingTests.md).
