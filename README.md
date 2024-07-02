@@ -19,3 +19,11 @@ Since I already have some experience with React, I'll be taking a bird's-eye vie
 
 - My first app to get started with React. This project includes my personal notes and remarks, which can be found in the [hello-react notes](./hello-react/Notes.md).
 - Read more about [Writing tests](./hello-react/WritingTests.md).
+
+### 1. Simple Counter
+
+- In this app I modified the boilerplate code that comes while creating project.
+- I used and learnt about `useState()` in react.
+- I tried styling the components using external css, by modifying boilerplate code.
+- I explored [different ways](./simple-counter/DifferentWays.md) of creating simple counter.
+- I explored how [test cases](./simple-counter/WritingTests.md) can be written for component testing.

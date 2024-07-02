@@ -1,0 +1,24 @@
+.SimpleCounter {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.count {
+  font-weight: 900;
+}
+
+.Button {
+  margin-left: 10px;
+  min-width: 50px;
+  max-width: 5vw;
+}
+
+.Increment {
+  background-color: green;
+}
+
+.Decrement {
+  background-color: crimson;
+}
