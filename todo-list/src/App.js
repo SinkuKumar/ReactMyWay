@@ -1,7 +1,9 @@
 import React, { useState } from 'react';
+import './App.css';
 
 function App() {
   const [tasks, setTasks] = useState([]);
+  const [currentTask, setCurrentTask] = useState(null);
 
   const addTask = (task) => {
     setTasks([...tasks, { id: Date.now(), text: task, completed: false }]);
@@ -17,71 +19,99 @@ function App() {
     ));
   };
 
+  const editTask = (task) => {
+    setCurrentTask(task);
+  };
+
+  const updateTask = (updatedTask) => {
+    setTasks(tasks.map(task =>
+      task.id === updatedTask.id ? updatedTask : task
+    ));
+    setCurrentTask(null);
+  };
+
   return (
-    <div>
-      <h1>To-Do List</h1>
-      <TaskForm addTask={addTask} />
+    <div id='todo'>
+      <TaskForm addTask={addTask} currentTask={currentTask} updateTask={updateTask} />
       <TaskList
         tasks={tasks}
         deleteTask={deleteTask}
         toggleTaskCompletion={toggleTaskCompletion}
+        editTask={editTask}
       />
     </div>
   );
 }
 
-function TaskForm({ addTask }) {
-  const [task, setTask] = useState('');
+function TaskForm({ addTask, currentTask, updateTask }) {
+  const [task, setTask] = useState(currentTask ? currentTask.text : '');
+
+  React.useEffect(() => {
+    if (currentTask) {
+      setTask(currentTask.text);
+    } else {
+      setTask('');
+    }
+  }, [currentTask]);
 
   const handleSubmit = (e) => {
     e.preventDefault();
     if (task.trim()) {
-      addTask(task);
+      if (currentTask) {
+        updateTask({ ...currentTask, text: task });
+      } else {
+        addTask(task);
+      }
       setTask('');
     }
   };
 
   return (
-    <form onSubmit={handleSubmit}>
+    <form onSubmit={handleSubmit} id='todo-form'>
       <input
-        type="text"
+        id='todo-input'
+        type="textarea"
         value={task}
         onChange={(e) => setTask(e.target.value)}
         placeholder="New task"
       />
-      <button type="submit">Add Task</button>
+      <button id='task-submit' type="submit">{currentTask ? 'Update Task' : 'Add Task'}</button>
     </form>
   );
 }
 
-function TaskList({ tasks, deleteTask, toggleTaskCompletion }) {
+function TaskList({ tasks, deleteTask, toggleTaskCompletion, editTask }) {
   return (
-    <ul>
+    <div id='task-list'>
       {tasks.map(task => (
         <Task
           key={task.id}
           task={task}
           deleteTask={deleteTask}
           toggleTaskCompletion={toggleTaskCompletion}
+          editTask={editTask}
         />
       ))}
-    </ul>
+    </div>
   );
 }
 
-function Task({ task, deleteTask, toggleTaskCompletion }) {
+function Task({ task, deleteTask, toggleTaskCompletion, editTask }) {
   return (
-    <li>
+    <div className='task'>
+      <span className='task-text' style={{ textDecoration: task.completed ? 'line-through' : 'none' }}>
+        {task.text}
+      </span>
+      <br />
+      <hr />
       <input
         type="checkbox"
         checked={task.completed}
         onChange={() => toggleTaskCompletion(task.id)}
-      />
-      <span style={{ textDecoration: task.completed ? 'line-through' : 'none' }}>
-        {task.text}
-      </span>
-      <button onClick={() => deleteTask(task.id)}>Delete</button>
-    </li>
+      /> Completed
+      <button className='delete-task' onClick={() => editTask(task)}>Edit</button>
+      <button className='delete-task' onClick={() => deleteTask(task.id)}>Delete</button>
+    </div>
   );
 }
 
